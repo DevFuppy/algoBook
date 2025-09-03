@@ -61,7 +61,7 @@ const IR = int=>
 //學到提取正負號的Math.sign()方法
 
 
-/**Converse to Capital**/
+/**Capitalization**/
 const toCapital = str => str.split(' ').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
 
 
@@ -118,3 +118,34 @@ const FibonacciSequence = (n) => {
 
 
 }
+
+//todo : 記憶費博，用陣列 with index實作
+
+
+//todo：Two Sum => 給陣列+sum as param, return [[a,b],[]....],a+b=sum
+//可實作不重複pair
+
+//todo: 金字塔
+
+//todo: 階梯
+
+//todo: Anagrams 兩字是否相同。
+//可先做字典函數再做比較函數
+// /\W/g 這啥?
+
+
+//todo : 反向陣列 Reverse Array
+//可實作看看temp互換及陣列元素互換法
+//真的需要分開character array and number array嗎?
+
+//todo : Reverse Words
+//書是直接迴圈反排
+//可否用二分之一互換?
+//可否直接用reverse方法?
+
+
+//todo : max profit
+//其實就是給一個陣列找最大差的兩個元素
+//其實就是用更新紀錄法就好
+//還是其實用比大小就好呢?
+//兩個都寫出來後問gpt
