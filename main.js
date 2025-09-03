@@ -60,3 +60,8 @@ const IR = int=>
 //其實就是轉字串(陣列)再反轉
 //學到提取正負號的Math.sign()方法
 
+
+/**Converse to Capital**/
+const toCapital = str => str.split(' ').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
+
+ 
