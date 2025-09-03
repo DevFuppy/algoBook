@@ -64,4 +64,57 @@ const IR = int=>
 /**Converse to Capital**/
 const toCapital = str => str.split(' ').map(x=>x[0].toUpperCase()+x.slice(1)).join(' ')
 
+
+
+/**Fibonacci Sequence**/
+//遞迴就直接用語意寫。其實就是兩條分支深入到 第0項、第1項 (為停止條件)回彈，本質上就是最後算出 n-1項 , n-2項的值以相加來得到第n項的值
+//迴圈寫法就不斷更新每項的值，順便中途會得到前兩項的值，也不斷更新，跑完迴圈就會得到答案
+const Fibonacci = (n) => (n===0 || n===1)? n :Fibonacci(n-1) +  Fibonacci(n-2)
  
+const Fibonacci2 = (n)=>{
+
+    if(n===0 || n===1) return n 
+        
+    let granpa = 0
+    let pa = 1
+    let sum = null
+
+    while(n>1){
+ 
+      sum = pa+granpa;
+      granpa = pa;
+      pa = sum;        
+      n--;
+      
+    }
+
+    return sum
+}
+
+const FibonacciSequence = (n) => {
+
+
+    if(n===0) return [0]
+    if(n===1) return [0,1]   
+        
+    let res = [0,1] 
+
+    let granpa = 0
+    let pa = 1
+    let sum = null
+ 
+    while(n>1){
+ 
+      sum = pa+granpa;
+      granpa = pa;
+      pa = sum;        
+      n--;
+      
+      res.push(sum)
+      
+    }
+
+    return res
+
+
+}
