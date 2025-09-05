@@ -219,16 +219,24 @@ const reverseArrayB = (arr) => {
 };
 
 /**Reverse Words**/
-const reWordsA = (str)=>str.split(' ').map(x=>Array.from(x).reverse().join('')).join(' ')
+const reWordsA = (str) =>
+  str
+    .split(" ")
+    .map((x) => Array.from(x).reverse().join(""))
+    .join(" ");
 //不破壞emoji
 
-const reWordsB = (str)=>str.split(' ').map(x=>x.split('').reverse().join('')).join(' ')
+const reWordsB = (str) =>
+  str
+    .split(" ")
+    .map((x) => x.split("").reverse().join(""))
+    .join(" ");
 //會破壞emoji
-
-
 
 /**Max Profit**/
 //todo : max profit
+const maxProfit = (arr) => {};
+
 //其實就是給一個陣列找最大差的兩個元素
 //其實就是用更新紀錄法就好
 //還是其實用比大小就好呢?
@@ -287,94 +295,74 @@ const solveTwoSum = (arr, sum) => {
 
 // 如果你之後想把效能升到 O(n)，也不用重寫整個程式，只要把 expected 改成「值 → 欲配對次數」的 Map（或物件當計數表）即可，其餘流程一樣：命中就扣 1，歸零就刪鍵。
 
-
-
 /**Array Queue**/
-let front = 0
-let rear = 0
+let front = 0;
+let rear = 0;
 
-let Q = []
+let Q = [];
 
-function enQ (int){
-
-  Q[rear] = int
+function enQ(int) {
+  Q[rear] = int;
   rear++;
-  return Q
+  return Q;
 }
 
-function dQ(){
+function dQ() {
+  if (front === rear) return "the Q is already empty";
 
-    if(front===rear)return'the Q is already empty'
+  let removed = Q[front];
+  Q[front] = undefined;
+  front++;
 
-    let removed = Q[front]
-     Q[front] = undefined;
-    front++
-
-    return removed
-  
+  return removed;
 }
 
-function showQ(){
-
-  return Q.slice(front,rear)
-
+function showQ() {
+  return Q.slice(front, rear);
 }
 //front也是跑到下一個要拿掉的位置，但show從他開始顯示剛剛好。 rear是跑到下一個要加入的地方，但slice他剛好不計，所以放那邊剛好
 //包成方法? 可練習實作
 
-
 /**Node Queue**/
-function User(acc,pwd){
-
-    this.acc = acc;
-    this.pwd = pwd;
-    this.next =null;
-
+function User(acc, pwd) {
+  this.acc = acc;
+  this.pwd = pwd;
+  this.next = null;
 }
 
 let nFront = null;
 let nRear = null;
 
-function NenQ(acc,pwd){
+function NenQ(acc, pwd) {
+  let newNode = new User(acc, pwd);
 
-  let newNode = new User(acc,pwd)
-
-  if(nFront===null){
- 
-   nFront = nRear = newNode;
-  
+  if (nFront === null) {
+    nFront = nRear = newNode;
+  } else {
+    nRear.next = newNode;
+    nRear = nRear.next;
   }
-  else{         
-      nRear.next = newNode
-      nRear =  nRear.next
-  }
-return nRear
+  return nRear;
 }
 
-function NdQ(){
+function NdQ() {
+  let removed = nFront;
+  nFront = nFront.next;
 
-  let removed = nFront
-  nFront = nFront.next
-
-  return removed
-  
+  return removed;
 }
 
-function NshowQ(){
-
+function NshowQ() {
   let res = [];
 
   let temp = nFront;
 
-  while(temp!==null)
-  {
+  while (temp !== null) {
+    res.push(temp);
 
-    res.push(temp)
-
-    temp = temp.next
-
+    temp = temp.next;
   }
-  
+
   return res;
 }
 //加size維護
@@ -383,3 +371,83 @@ function NshowQ(){
 //看書怎麼寫
 //好好想想 rear,front, .next 的指派問題，想想為什麼front在有兩個node又enQ的時候，被改到為什麼沒差且反而需要
 //因為對於改.next來說，他只是要確定node可以連結，本來上一顆next就是要連到新node，不管他是不是第一個front，至於rear指幫本來就要必定移到最後一個node，這兩步並沒有衝突，且代表的意義不一樣，一個是接node，一個是參照要移動。一開始改到front本來就是應該的，因為就是要改到他連到第二顆進來的node，之後rear再移動就對了。
+
+/**CBT Array**/
+let CBTarray = [];
+
+const getLeftIndex = (i) => 2 * i + 1;
+
+const getRightIndex = (i) => 2 * i + 2;
+
+const getParentIndex = (i) => Math.floor(i / 2);
+
+const getTreeLvl = (arr) => {
+   
+  let len = arr.length;
+  
+  //去除尾端或全null, undefined之情況
+  //尾端出現null，進入檢查
+  if(arr[len-1]==null)
+  {    
+    
+    //從尾端第一個開始檢查
+    for(let i = len -1; i>=0 ;i--)
+    {
+
+      //碰到有值，刪前一個到尾端的null
+      if(arr[i]!=null)
+      {       
+        //index記得要加1，因為是當下索引,slice不留 
+        arr = arr.slice(0,i+1)  
+        len = arr.length;  
+        break;
+      }      
+      
+      //如果都跑完，還沒遇到null，那麼表示為全null
+      if(i===0)return 0
+
+    }
+
+  }
+ 
+  let lvl = 0;  
+
+  for (let i = 1; len > 0; i *= 2) {
+    len = len - i
+    lvl++;
+  }
+
+  return lvl;
+};
+
+const printTree = (arr) => {
+
+   
+  let pointer = 0 ;
+  let wide = 1
+  let tree = [] 
+
+  for(let i = getTreeLvl(arr); i>0 ; i--)
+  {
+    
+    let left = pointer
+    let right = left + wide
+    tree.push(arr.slice(left,right))
+     pointer += wide;
+    wide *=2
+   
+    
+  }
+
+  return tree;
+  
+};
+
+//todo: 尾端判斷空值的邏輯要抽出來當方法
+//要用在printTree那邊`
+// level 0: [0:10 (p:-)]
+// level 1: [1:5 (p:0), 2:15 (p:0)]
+// level 2: [3:3 (p:1), 4:7 (p:1), 5:- (p:2), 6:20 (p:2)]
+
+
+const isComplete = (e) => {};
