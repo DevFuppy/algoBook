@@ -224,6 +224,7 @@ const reWordsA = (str) =>
     .split(" ")
     .map((x) => Array.from(x).reverse().join(""))
     .join(" ");
+
 //不破壞emoji
 
 const reWordsB = (str) =>
@@ -231,6 +232,7 @@ const reWordsB = (str) =>
     .split(" ")
     .map((x) => x.split("").reverse().join(""))
     .join(" ");
+
 //會破壞emoji
 
 /**Max Profit**/
@@ -239,7 +241,9 @@ const maxProfit = (arr) => {};
 
 //其實就是給一個陣列找最大差的兩個元素
 //其實就是用更新紀錄法就好
-//還是其實用比大小就好呢?
+//還是其實用比大小就好呢? --> no 比大小會多比
+//應該確實要更新最高、最低價，並更動對大價差
+//相對高價比出來後，確定是maxprofit，再更動最高價
 //兩個都寫出來後問gpt
 
 /**Two Sum Pair**/
@@ -299,17 +303,21 @@ const solveTwoSum = (arr, sum) => {
 let front = 0;
 let rear = 0;
 
+
 let Q = [];
+
 
 function enQ(int) {
   Q[rear] = int;
   rear++;
   return Q;
+ 
 }
 
 function dQ() {
+ 
   if (front === rear) return "the Q is already empty";
-
+ 
   let removed = Q[front];
   Q[front] = undefined;
   front++;
@@ -319,11 +327,13 @@ function dQ() {
 
 function showQ() {
   return Q.slice(front, rear);
+ 
 }
 //front也是跑到下一個要拿掉的位置，但show從他開始顯示剛剛好。 rear是跑到下一個要加入的地方，但slice他剛好不計，所以放那邊剛好
 //包成方法? 可練習實作
 
 /**Node Queue**/
+ 
 function User(acc, pwd) {
   this.acc = acc;
   this.pwd = pwd;
@@ -333,9 +343,10 @@ function User(acc, pwd) {
 let nFront = null;
 let nRear = null;
 
+ 
 function NenQ(acc, pwd) {
   let newNode = new User(acc, pwd);
-
+   
   if (nFront === null) {
     nFront = nRear = newNode;
   } else {
@@ -345,12 +356,15 @@ function NenQ(acc, pwd) {
   return nRear;
 }
 
+
 function NdQ() {
   let removed = nFront;
   nFront = nFront.next;
 
   return removed;
+
 }
+
 
 function NshowQ() {
   let res = [];
@@ -362,6 +376,7 @@ function NshowQ() {
 
     temp = temp.next;
   }
+
 
   return res;
 }
@@ -451,3 +466,71 @@ const printTree = (arr) => {
 
 
 const isComplete = (e) => {};
+
+
+/**Tree Node**/
+function tNode(score) {
+  this.score = score;
+  this.left = null;
+  this.right = null;
+}
+
+function addTreeNode(root, score) {
+  let newNode = new tNode(score);
+  let tempSlot;
+
+  if (root == null) {
+    debugger;
+    root = newNode;
+    return root;
+  } else {
+
+    debugger;
+    tempSlot = root;
+
+    while (tempSlot != null) {
+      if (newNode.score < tempSlot.score) {
+        if (tempSlot.left == null) {
+          tempSlot.left = newNode;
+          break;
+        }
+        tempSlot = tempSlot.left;
+      } else {
+        if (tempSlot.right == null) {
+          tempSlot.right = newNode;
+          break;
+        }
+
+        tempSlot = tempSlot.right;
+      }
+    }
+
+    return root
+  }
+}
+
+let root = new tNode(12);
+
+// addTreeNode(root,5)
+
+// addTreeNode(root,8)
+// addTreeNode(root,9)
+// addTreeNode(root,15)
+// addTreeNode(root,24)
+// addTreeNode(root,10)
+
+
+/**ToDo**/
+//樹的中序走訪 ==> 可小排到大
+//樹的搜尋=> 其實就是不斷比大小去走分支
+//樹的插入，書貌似沒有更動整個樹的節點順序，只用搜尋後補上，但真的可以這樣嗎? 會不會有些情況應該是要插中間的?(好像不會)
+
+/****/
+
+/****/
+
+/****/
+
+/****/
+
+/****/
