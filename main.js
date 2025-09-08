@@ -236,8 +236,72 @@ const reWordsB = (str) =>
 //會破壞emoji
 
 /**Max Profit**/
-//todo : max profit
-const maxProfit = (arr) => {};
+// 假設引數陣列元素一率為數字
+//
+const maxProfit = (arr) => {
+  if (arr.length < 2) return 0;
+
+  let first = arr[0],
+    second = arr[1];
+  let min = Math.min(second, first);
+  let maxProfit = Math.max(second - first, 0);
+  let trail = [];
+
+  if (maxProfit > 0) trail.push([first, second]);
+
+  for (let i = 2; i < arr.length; i++) {
+    if (arr[i] > min) {
+      if (arr[i] - min >= maxProfit) {
+        maxProfit = arr[i] - min;
+        trail.push([min, arr[i]]);
+      }
+    } else if (arr[i] < min) {
+      min = arr[i];
+    }
+  }
+
+ let tran =  
+ trail.length >1? 
+    trail.reduce((acc, cur) => {
+ 
+      if (cur[1] - cur[0]=== maxProfit) {
+        acc.push(cur);
+      }
+
+      return acc
+
+    } , [])
+    :trail
+   
+
+  return maxProfit <= 0
+    ? 0
+    : {
+        tran,
+        maxProfit,
+      };
+};
+
+// let testData = [
+//   [1, 2, 3, 4], // → 3
+//   [2, 5, 9], // → 7
+//   [3, 2, 6, 1, 7], // → 6  （1 買 7 賣）
+//   [7, 1, 5, 3, 6, 4], // → 5  （1 買 6 賣）
+//   [2, 4, 1, 7], // → 6  （1 買 7 賣）
+//   [2, 5, 2, 5], // → 3  （2→5，不管是哪一組）
+//   [1, 3, 1, 3, 1, 3], // → 2
+//   [3, 3, 3, 3], // → 0
+//   [2, 2, 2, 5, 5], // → 3
+//   [1.5, 1.2, 2.8], // → 1.6
+//   [2.1, 2.1, 2.9], // → 0.8
+//   [-3, -2, 4], // → 7  （-3 買 4 賣）
+//   [-5, -1, -2], // → 4  （-5 買 -1 賣）
+//   [1000000000, 1, 1000000005], // → 1000000004
+// ];
+
+// for (let i of testData) {
+//   console.log(maxProfit(i));
+// }
 
 //其實就是給一個陣列找最大差的兩個元素
 //其實就是用更新紀錄法就好
@@ -303,21 +367,17 @@ const solveTwoSum = (arr, sum) => {
 let front = 0;
 let rear = 0;
 
-
 let Q = [];
-
 
 function enQ(int) {
   Q[rear] = int;
   rear++;
   return Q;
- 
 }
 
 function dQ() {
- 
   if (front === rear) return "the Q is already empty";
- 
+
   let removed = Q[front];
   Q[front] = undefined;
   front++;
@@ -327,13 +387,12 @@ function dQ() {
 
 function showQ() {
   return Q.slice(front, rear);
- 
 }
 //front也是跑到下一個要拿掉的位置，但show從他開始顯示剛剛好。 rear是跑到下一個要加入的地方，但slice他剛好不計，所以放那邊剛好
 //包成方法? 可練習實作
 
 /**Node Queue**/
- 
+
 function User(acc, pwd) {
   this.acc = acc;
   this.pwd = pwd;
@@ -343,10 +402,9 @@ function User(acc, pwd) {
 let nFront = null;
 let nRear = null;
 
- 
 function NenQ(acc, pwd) {
   let newNode = new User(acc, pwd);
-   
+
   if (nFront === null) {
     nFront = nRear = newNode;
   } else {
@@ -356,15 +414,12 @@ function NenQ(acc, pwd) {
   return nRear;
 }
 
-
 function NdQ() {
   let removed = nFront;
   nFront = nFront.next;
 
   return removed;
-
 }
-
 
 function NshowQ() {
   let res = [];
@@ -376,7 +431,6 @@ function NshowQ() {
 
     temp = temp.next;
   }
-
 
   return res;
 }
@@ -397,38 +451,30 @@ const getRightIndex = (i) => 2 * i + 2;
 const getParentIndex = (i) => Math.floor(i / 2);
 
 const getTreeLvl = (arr) => {
-   
   let len = arr.length;
-  
+
   //去除尾端或全null, undefined之情況
   //尾端出現null，進入檢查
-  if(arr[len-1]==null)
-  {    
-    
+  if (arr[len - 1] == null) {
     //從尾端第一個開始檢查
-    for(let i = len -1; i>=0 ;i--)
-    {
-
+    for (let i = len - 1; i >= 0; i--) {
       //碰到有值，刪前一個到尾端的null
-      if(arr[i]!=null)
-      {       
-        //index記得要加1，因為是當下索引,slice不留 
-        arr = arr.slice(0,i+1)  
-        len = arr.length;  
+      if (arr[i] != null) {
+        //index記得要加1，因為是當下索引,slice不留
+        arr = arr.slice(0, i + 1);
+        len = arr.length;
         break;
-      }      
-      
+      }
+
       //如果都跑完，還沒遇到null，那麼表示為全null
-      if(i===0)return 0
-
+      if (i === 0) return 0;
     }
-
   }
- 
-  let lvl = 0;  
+
+  let lvl = 0;
 
   for (let i = 1; len > 0; i *= 2) {
-    len = len - i
+    len = len - i;
     lvl++;
   }
 
@@ -436,26 +482,19 @@ const getTreeLvl = (arr) => {
 };
 
 const printTree = (arr) => {
+  let pointer = 0;
+  let wide = 1;
+  let tree = [];
 
-   
-  let pointer = 0 ;
-  let wide = 1
-  let tree = [] 
-
-  for(let i = getTreeLvl(arr); i>0 ; i--)
-  {
-    
-    let left = pointer
-    let right = left + wide
-    tree.push(arr.slice(left,right))
-     pointer += wide;
-    wide *=2
-   
-    
+  for (let i = getTreeLvl(arr); i > 0; i--) {
+    let left = pointer;
+    let right = left + wide;
+    tree.push(arr.slice(left, right));
+    pointer += wide;
+    wide *= 2;
   }
 
   return tree;
-  
 };
 
 //todo: 尾端判斷空值的邏輯要抽出來當方法
@@ -464,9 +503,7 @@ const printTree = (arr) => {
 // level 1: [1:5 (p:0), 2:15 (p:0)]
 // level 2: [3:3 (p:1), 4:7 (p:1), 5:- (p:2), 6:20 (p:2)]
 
-
 const isComplete = (e) => {};
-
 
 /**Tree Node**/
 function tNode(score) {
@@ -484,7 +521,6 @@ function addTreeNode(root, score) {
     root = newNode;
     return root;
   } else {
-
     debugger;
     tempSlot = root;
 
@@ -505,7 +541,7 @@ function addTreeNode(root, score) {
       }
     }
 
-    return root
+    return root;
   }
 }
 
@@ -518,7 +554,6 @@ let root = new tNode(12);
 // addTreeNode(root,15)
 // addTreeNode(root,24)
 // addTreeNode(root,10)
-
 
 /**ToDo**/
 //樹的中序走訪 ==> 可小排到大
