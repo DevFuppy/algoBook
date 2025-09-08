@@ -38,4 +38,5 @@ bst.addTreeNode(root,15)
 bst.addTreeNode(root,24)
 bst.addTreeNode(root,10)
 
+window.walkTreeNode=bst.walkTreeNode
 

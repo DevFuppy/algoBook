@@ -5,7 +5,7 @@ export const tNode = function(score) {
   this.right = null;
 }
 
-export const addTreeNode =function(root, score) {
+export const addTreeNode = function(root, score) {
   let newNode = new tNode(score);
   let tempSlot;
 
@@ -38,6 +38,13 @@ export const addTreeNode =function(root, score) {
   }
 }
 
+export const walkTreeNode = (root)=>{
+
+if(root===null) return null  
+
+return [walkTreeNode(root?.left||null),root.score,walkTreeNode(root?.right||null)]
+  
+}
 
 
 /**ToDo**/
