@@ -37,6 +37,13 @@ bst.addTreeNode(root,9)
 bst.addTreeNode(root,15)
 bst.addTreeNode(root,24)
 bst.addTreeNode(root,10)
+bst.addTreeNode(root,7)
+bst.addTreeNode(root,3)
+bst.addTreeNode(root,13)
+bst.addTreeNode(root,12.8)
+bst.addTreeNode(root,14)
+bst.addTreeNode(root,54)
 
 window.walkTreeNode=bst.walkTreeNode
-
+window.searchTree = bst.searchTree
+window.deleteNode = bst.deleteNode
