@@ -54,6 +54,31 @@ export const printTree = (arr) => {
   return tree;
 };
 
+
+export const printTreeDiagram = (arr) => {
+  let pointer = 0;
+  let wide = 1;
+  let tree = [];
+  let resultStr = ''
+
+  for (let i = getTreeLvl(arr); i > 0; i--) {
+
+    let left = pointer;
+    let right = left + wide;
+    // tree.push(arr.slice(left, right));
+
+    let levelStr = `level ${i}: [${arr.slice(left, right).map((e,i)=>`${i}: ${e}`)}  (p: ${getParentIndex(i)||'-'})]\n`;
+   
+
+    resultStr += levelStr
+
+    pointer += wide;
+    wide *= 2;
+  }
+
+  return resultStr;
+};
+
 //todo: 尾端判斷空值的邏輯要抽出來當方法
 //要用在printTree那邊`
 // level 0: [0:10 (p:-)]
@@ -61,3 +86,5 @@ export const printTree = (arr) => {
 // level 2: [3:3 (p:1), 4:7 (p:1), 5:- (p:2), 6:20 (p:2)]
 
 const isComplete = (e) => {};
+
+

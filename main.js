@@ -27,23 +27,25 @@ window.NshowQ = nq.NshowQ
 
 /**array tree**/
 window.printTree = art.printTree
+window.printTreeDiagram = art.printTreeDiagram
 
 
 /**BST**/
-window.root = new bst.tNode(12);
-bst.addTreeNode(root,5)
-bst.addTreeNode(root,8)
-bst.addTreeNode(root,9)
-bst.addTreeNode(root,15)
-bst.addTreeNode(root,24)
-bst.addTreeNode(root,10)
-bst.addTreeNode(root,7)
-bst.addTreeNode(root,3)
-bst.addTreeNode(root,13)
-bst.addTreeNode(root,12.8)
-bst.addTreeNode(root,14)
-bst.addTreeNode(root,54)
 
 window.walkTreeNode=bst.walkTreeNode
 window.searchTree = bst.searchTree
 window.deleteNode = bst.deleteNode
+window.Preorder = bst.TraversalOrders.Preorder,
+window.Inorder =  bst.TraversalOrders.Inorder,
+window.Postorder = bst.TraversalOrders.Postorder
+
+window.root = new bst.tNode(12);
+
+for(let i of [5, 8, 9, 15, 24, 10, 7, 3, 13, 12.8, 14, 54])
+{
+    bst.addTreeNode(root,i)
+}
+
+// console.log(root,Inorder)
+
+console.log( walkTreeNode(root,Postorder) )

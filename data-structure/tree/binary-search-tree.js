@@ -36,20 +36,103 @@ export const addTreeNode = function (root, score) {
   }
 };
 
-//樹的中序走訪 ==> 可小排到大
-export const walkTreeNode = (root) => {
-  if (root === null) return null;
 
-  return [
-    walkTreeNode(root?.left || null),
-    root.score,
-    walkTreeNode(root?.right || null),
-  ];
+
+
+export const TraversalOrders ={
+
+  Preorder:(root)=>{
+    
+  let result = []
+
+  let order = Preorder
+
+  if(root.left)
+    {     
+      result=[...walkTreeNode(root?.left,order )] 
+    }
+ 
+    
+   result=[...result,root.score];
+   
+     if(root.right)
+    {
+      result=[...result,...walkTreeNode(root?.right,order )] 
+    }
+
+    return result;
+
+
+
+  },
+
+  Inorder:(root)=>{
+
+  let order = Inorder
+
+  let result = []
+
+
+   result=[...result,root.score];
+
+  if(root.left)
+    {     
+      result=[...walkTreeNode(root?.left,order )] 
+    } 
+    
+
+   
+     if(root.right)
+    {
+      result=[...result,...walkTreeNode(root?.right,order )] 
+    }
+
+    return result;
+    
+  },
+
+  Postorder:(root)=>{
+      let result = []
+
+
+let order = Postorder
+
+  if(root.left)
+    {     
+      result=[...walkTreeNode(root?.left,order )] 
+    }
+ 
+    
+   
+     if(root.right)
+    {
+      result=[...result,...walkTreeNode(root?.right,order )] 
+    }
+
+      result=[...result,root.score];
+
+    return result;
+    
+  }
+
+}
+
+
+//樹的中序走訪 小排到大
+export const walkTreeNode = (root,order) => {
+
+  
+  if (root?.left === null && root?.right===null) return [root.score];  
+   
+  
+  return order(root)
+;
+
 };
 //需求：直接返回一個小排到大的陣列
 //那其他兩個走訪會用在哪裡呢?
 
-//樹的搜尋=> 其實就是不斷比大小去走分支
+/*樹的搜尋=> 其實就是不斷比大小去走分支*/
 export const searchTree = (root, score) => {
   let temp = root;
 
@@ -92,34 +175,23 @@ export const deleteNode = (root, score) => {
 
   if (node == null) {
     console.log("the node doesn'nt exist");
-    return root;
+    return {root,removed:false};
   }
 
-  let left = node.left,
-    right = node.right;
-  
 
-  if (left == null && right == null) {
+  if (node.left == null && node.right == null) {
     
-    if (node===root)
-    {
-      root=root.right??root.left
-      node.left=null;node.right=null
-    }
+    if (node===root)root=root.right??root.left  ;   
     else if (fromWhere) parent.left = null;
     else parent.right = null;
 
   } 
-  else if (left == null || right == null) {
+  else if (node.left == null || node.right == null) {
    
 
     let descendants = node.left ?? node.right; 
 
-    if (node===root)
-    {
-      root=root.right??root.left
-      node.left=null;node.right=null
-    }
+    if (node===root)root=root.right??root.left;     
     else if (fromWhere) parent.left = descendants;
     else parent.right = descendants;
 
@@ -127,7 +199,7 @@ export const deleteNode = (root, score) => {
   else {
 
     let replaceTarget = node.right;
-    let targetParent = root;
+    let targetParent ;
 
     while(replaceTarget.left != null)
     {
@@ -135,19 +207,22 @@ export const deleteNode = (root, score) => {
       replaceTarget = replaceTarget.left
     }
 
-    node.score = replaceTarget.score;    
+    // node.score = replaceTarget.score; 
     
-    if(replaceTarget === root.right)root.right = replaceTarget.right;    
+    let keys = Object.keys(node).filter(k=>k!=='right' && k!=='left')
+  
+    keys.forEach(k=>node[k]=replaceTarget[k])
+    
+    if(replaceTarget === node.right)node.right = replaceTarget.right;    
     else targetParent.left = replaceTarget.right;
 
 
   }
-  return root
+  return {root,removed:true}
 };
 
 /**ToDo**/
 
-//樹的插入，書貌似沒有更動整個樹的節點順序，只用搜尋後補上，但真的可以這樣嗎? 會不會有些情況應該是要插中間的?(好像不會)
 
 /****/
 
