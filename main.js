@@ -41,6 +41,8 @@ window.Postorder = bst.TraversalOrders.Postorder
 
 window.root = new bst.tNode(12);
 
+// [5, 8, 9, 15, 24, 10, 7, 3, 13, 12.8, 14, 54]
+
 for(let i of [5, 8, 9, 15, 24, 10, 7, 3, 13, 12.8, 14, 54])
 {
     bst.addTreeNode(root,i)
@@ -48,4 +50,4 @@ for(let i of [5, 8, 9, 15, 24, 10, 7, 3, 13, 12.8, 14, 54])
 
 // console.log(root,Inorder)
 
-console.log( walkTreeNode(root,Postorder) )
+// console.log( bstToArray(root) )

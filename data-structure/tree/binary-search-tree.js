@@ -36,101 +36,117 @@ export const addTreeNode = function (root, score) {
   }
 };
 
+export const TraversalOrders = {
+  Preorder: (root) => {
+    let result = [];
 
+    let order = Preorder;
 
-
-export const TraversalOrders ={
-
-  Preorder:(root)=>{
-    
-  let result = []
-
-  let order = Preorder
-
-  if(root.left)
-    {     
-      result=[...walkTreeNode(root?.left,order )] 
+    if (root.left) {
+      result = [...walkTreeNode(root?.left, order)];
     }
- 
-    
-   result=[...result,root.score];
-   
-     if(root.right)
-    {
-      result=[...result,...walkTreeNode(root?.right,order )] 
+
+    result = [...result, root.score];
+
+    if (root.right) {
+      result = [...result, ...walkTreeNode(root?.right, order)];
     }
 
     return result;
-
-
-
   },
 
-  Inorder:(root)=>{
+  Inorder: (root) => {
+    let order = Inorder;
 
-  let order = Inorder
+    let result = [];
 
-  let result = []
+    result = [...result, root.score];
 
+    if (root.left) {
+      result = [...walkTreeNode(root?.left, order)];
+    }
 
-   result=[...result,root.score];
-
-  if(root.left)
-    {     
-      result=[...walkTreeNode(root?.left,order )] 
-    } 
-    
-
-   
-     if(root.right)
-    {
-      result=[...result,...walkTreeNode(root?.right,order )] 
+    if (root.right) {
+      result = [...result, ...walkTreeNode(root?.right, order)];
     }
 
     return result;
-    
   },
 
-  Postorder:(root)=>{
-      let result = []
+  Postorder: (root) => {
+    let result = [];
 
+    let order = Postorder;
 
-let order = Postorder
-
-  if(root.left)
-    {     
-      result=[...walkTreeNode(root?.left,order )] 
-    }
- 
-    
-   
-     if(root.right)
-    {
-      result=[...result,...walkTreeNode(root?.right,order )] 
+    if (root.left) {
+      result = [...walkTreeNode(root?.left, order)];
     }
 
-      result=[...result,root.score];
+    if (root.right) {
+      result = [...result, ...walkTreeNode(root?.right, order)];
+    }
+
+    result = [...result, root.score];
 
     return result;
-    
-  }
-
-}
-
-
-//樹的中序走訪 小排到大
-export const walkTreeNode = (root,order) => {
-
-  
-  if (root?.left === null && root?.right===null) return [root.score];  
-   
-  
-  return order(root)
-;
-
+  },
 };
-//需求：直接返回一個小排到大的陣列
-//那其他兩個走訪會用在哪裡呢?
+
+//BFS法
+export const bstToArray = (root) => {
+
+    if(root==null || root.score==null) return [];
+  
+    let q = [root];
+    let front = 0;
+    let rear = 1;
+    
+    let res = [root.score];
+
+    while(front<rear)
+    {
+      let cur = q[front];
+      front++;
+
+      const [l,r] = [cur?.left,cur?.right]
+      
+      if(l)
+      {
+        res.push(l.score);
+        q[rear] = l;
+        rear++;
+      }
+      else
+      {
+        res.push(null)
+      }
+
+      if(r)
+      {
+        res.push(r.score);
+        q[rear] = r;
+        rear++;
+      }
+      else
+      {
+        res.push(null)
+      }
+
+
+
+    }
+
+    for(let i= res.length-1; res[i]===null ;i-- )
+    {     
+       res.pop()        
+    }
+
+    return res;
+ 
+};
+
+/**todo**/
+//差在三種walk沒寫完\
 
 /*樹的搜尋=> 其實就是不斷比大小去走分支*/
 export const searchTree = (root, score) => {
@@ -151,7 +167,6 @@ export const searchTree = (root, score) => {
 
 //刪除樹
 export const deleteNode = (root, score) => {
-  
   //要被刪除的點
   let node;
 
@@ -160,14 +175,11 @@ export const deleteNode = (root, score) => {
   let fromWhere;
 
   while (temp !== null) {
-    
     if (score !== temp.score) {
-      parent =temp
-      fromWhere = score < temp.score 
+      parent = temp;
+      fromWhere = score < temp.score;
       temp = fromWhere ? temp.left : temp.right;
-
     } else {
-     
       node = temp;
       break;
     }
@@ -175,54 +187,41 @@ export const deleteNode = (root, score) => {
 
   if (node == null) {
     console.log("the node doesn'nt exist");
-    return {root,removed:false};
+    return { root, removed: false };
   }
-
 
   if (node.left == null && node.right == null) {
-    
-    if (node===root)root=root.right??root.left  ;   
+    if (node === root) root = root.right ?? root.left;
     else if (fromWhere) parent.left = null;
     else parent.right = null;
+  } else if (node.left == null || node.right == null) {
+    let descendants = node.left ?? node.right;
 
-  } 
-  else if (node.left == null || node.right == null) {
-   
-
-    let descendants = node.left ?? node.right; 
-
-    if (node===root)root=root.right??root.left;     
+    if (node === root) root = root.right ?? root.left;
     else if (fromWhere) parent.left = descendants;
     else parent.right = descendants;
-
-  } 
-  else {
-
+  } else {
     let replaceTarget = node.right;
-    let targetParent ;
+    let targetParent;
 
-    while(replaceTarget.left != null)
-    {
+    while (replaceTarget.left != null) {
       targetParent = replaceTarget;
-      replaceTarget = replaceTarget.left
+      replaceTarget = replaceTarget.left;
     }
 
-    // node.score = replaceTarget.score; 
-    
-    let keys = Object.keys(node).filter(k=>k!=='right' && k!=='left')
-  
-    keys.forEach(k=>node[k]=replaceTarget[k])
-    
-    if(replaceTarget === node.right)node.right = replaceTarget.right;    
+    // node.score = replaceTarget.score;
+
+    let keys = Object.keys(node).filter((k) => k !== "right" && k !== "left");
+
+    keys.forEach((k) => (node[k] = replaceTarget[k]));
+
+    if (replaceTarget === node.right) node.right = replaceTarget.right;
     else targetParent.left = replaceTarget.right;
-
-
   }
-  return {root,removed:true}
+  return { root, removed: true };
 };
 
 /**ToDo**/
-
 
 /****/
 
